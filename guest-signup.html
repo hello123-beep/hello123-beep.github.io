@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madmin - 게스트 가입</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .password-info {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Madmin</h1>
+        <p class="subtitle">게스트 계정으로 가입하기</p>
+        
+        <form id="guestSignupForm">
+            <div class="form-group">
+                <label for="username">사용자명</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    placeholder="예: john_doe" 
+                    required
+                    minlength="3"
+                    maxlength="20"
+                >
+                <div class="password-info">3-20자의 영문, 숫자, 언더스코어 사용 가능</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="비밀번호 입력" 
+                    required
+                    minlength="6"
+                >
+                <div class="password-info">최소 6자 이상</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">비밀번호 확인</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    placeholder="비밀번호 다시 입력" 
+                    required
+                >
+            </div>
+            
+            <button type="submit">가입하기</button>
+        </form>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="links">
+            <a href="/">돌아가기</a> | 
+            <a href="members.md">멤버 보기</a>
+        </div>
+    </div>
+
+    <script>
+        // localStorage에서 사용자 데이터 가져오기
+        function getUsers() {
+            const users = localStorage.getItem('madmin_users');
+            return users ? JSON.parse(users) : {};
+        }
+
+        // localStorage에 사용자 데이터 저장하기
+        function saveUsers(users) {
+            localStorage.setItem('madmin_users', JSON.stringify(users));
+        }
+
+        // 가입 폼 제출
+        document.getElementById('guestSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageDiv = document.getElementById('message');
+            
+            // 검증
+            if (username.length < 3 || username.length > 20) {
+                showMessage('사용자명은 3-20자여야 합니다.', 'error');
+                return;
+            }
+            
+            if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                showMessage('사용자명은 영문, 숫자, 언더스코어(_)만 사용 가능합니다.', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('비밀번호는 최소 6자 이상이어야 합니다.', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage('비밀번호가 일치하지 않습니다.', 'error');
+                return;
+            }
+            
+            // 중복 체크
+            const users = getUsers();
+            if (users[username]) {
+                showMessage('이미 사용 중인 사용자명입니다.', 'error');
+                return;
+            }
+            
+            // 새 사용자 등록
+            users[username] = {
+                password: btoa(password), // 간단한 인코딩 (실제 환경에서는 더 강력한 암호화 필요)
+                created: new Date().toISOString()
+            };
+            
+            saveUsers(users);
+            
+            // 성공 메시지
+            showMessage(`✓ 가입이 완료되었습니다! 사용자명: ${username}`, 'success');
+            
+            // 폼 초기화
+            document.getElementById('guestSignupForm').reset();
+            
+            // 3초 후 로그인 페이지로 이동 (선택사항)
+            setTimeout(() => {
+                // 필요시 로그인 페이지로 리다이렉트
+                // window.location.href = '/login.html';
+            }, 3000);
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+        }
+    </script>
+</body>
+</html>
