@@ -1,3 +1,3 @@
-# Hello123-Beep Community
+# Madmin
 
 커뮤니티에 오신 것을 환영합니다! 👋
