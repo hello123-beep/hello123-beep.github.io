@@ -1,0 +1,12 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "postId": 1,
+      "author": "admin",
+      "content": "첫 번째 댓글입니다!",
+      "createdAt": "2026-05-28T00:00:00Z",
+      "likes": 0
+    }
+  ]
+}

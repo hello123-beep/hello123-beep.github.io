@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "",
+      "role": "admin",
+      "joinDate": "2026-05-28",
+      "status": "active"
+    }
+  ]
+}

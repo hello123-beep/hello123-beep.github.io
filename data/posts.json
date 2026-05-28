@@ -1,0 +1,15 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Madmin 커뮤니티 시작합니다!",
+      "content": "Madmin 커뮤니티에 여러분을 환영합니다. 이곳에서 자유롭게 의견을 나누고 함께 성장해봅시다!",
+      "author": "admin",
+      "createdAt": "2026-05-28T00:00:00Z",
+      "updatedAt": "2026-05-28T00:00:00Z",
+      "views": 0,
+      "likes": 0,
+      "category": "공지사항"
+    }
+  ]
+}
