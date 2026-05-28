@@ -1,10 +1,10 @@
 title: Madmin
-description: 우리의 멋진 커뮤니티에 오신 것을 환영합니다!
+description: welcome
 theme: jekyll-theme-cayman
 
 # 기본 설정
 baseurl: ""
-url: "https://Madmin.io"
+url: "https://hello123-beep.github.io"
 author: hello123-beep
 
 # Jekyll 설정
