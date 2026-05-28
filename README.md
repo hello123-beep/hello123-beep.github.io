@@ -1,1 +1,3 @@
-# hello123-beep.github.io
+# Hello123-Beep Community
+
+커뮤니티에 오신 것을 환영합니다! 👋
